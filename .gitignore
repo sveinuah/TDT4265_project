@@ -1,3 +1,10 @@
+venv/
+content/
+kaggle_whale/
+dataset/
+
+kaggle.json
+
 
 # Created by https://www.gitignore.io/api/vim,python,windows
 
