@@ -32,3 +32,7 @@ def generateDataset(imageHeight, imageWidth):
             
     return testGenerator,trainGenerator
 
+tr, te = generateDataset(150,150)
+
+for tup in tr:
+    print(tup[0])
