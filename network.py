@@ -8,8 +8,6 @@ from keras import backend as K
 import numpy as np
 import matplotlib.pyplot as plt
 
-datasetLoader.py
-
 learningRate = 0.005 #Burde tweakes
 inputShape = (105,105,3) #Må endres til (x,y,1) hvis vi går over til svarthvitt
 
