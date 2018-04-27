@@ -23,9 +23,7 @@ class Whale_Generator:
         return len(self.filenames)
 
     def __getitem__(self, key):
-        print("Henter ut bilde nr", key, "fra path", self.path, end='. ')
         filename = self.filenames[key]
-        print("Det heter", filename)
         imgpath = os.path.join(self.path, filename)
         image = imresize(imread(imgpath, flatten=True), (self.size_x, self.size_y))
         return image
@@ -45,10 +43,8 @@ class Whale_Loader:
     def load_imgs(self, path):
         d = {}
         for label in os.listdir(path):
-            print("Loading label:", label)
             labelpath = os.path.join(path, label)
             d[label] = self.get_folder_generator(labelpath)
-        print("Done loading labels")
         return d
 
     def get_batch(self, size):
