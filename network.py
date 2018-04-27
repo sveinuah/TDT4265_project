@@ -1,12 +1,14 @@
 from keras.layers import Input, Conv2D, Dense, Flatten, MaxPooling2D, Lambda, merge
 from keras.models import Model, Sequential
-from kreas.regulizers import l2
+from keras.regularizers import l2
 from keras.losses import binary_crossentropy
 from keras.optimizers import SGD,Adam
-from keras import Backend as K
+from keras import backend as K
 
 import numpy as np
 import matplotlib.pyplot as plt
+
+datasetLoader.py
 
 learningRate = 0.005 #Burde tweakes
 inputShape = (105,105,3) #Må endres til (x,y,1) hvis vi går over til svarthvitt

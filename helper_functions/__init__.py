@@ -1,9 +1,5 @@
 #!python3
 
-# Trengte å lage en bruker på kaggle sine nettsider. Mulig dere bare kan kjøre
-# dette scriptet og bruke min bruker info. Hvis ikke les
-# "Using Kaggle API for Google Colaboratory" med link i resources på toppen.
-
 from matplotlib import pyplot as plt
 
 def plot_training_score(history):
