@@ -10,7 +10,7 @@ import os
 import matplotlib.pyplot as plt
 from datasetLoader import Whale_Loader
 
-learningRate = 0.005 #Burde tweakes
+learningRate = 0.00005 #Burde tweakes
 batch_size = 32
 inputShape = (150,150,1) #Må endres til (x,y,1) hvis vi går over til svarthvitt
 
@@ -51,7 +51,8 @@ def createModel(shape, learningRate):
 
     return siameseNet
 
-evaluate_every = 1 # interval for evaluating on one-shot tasks
+
+evaluate_every = 1000 # interval for evaluating on one-shot tasks
 loss_every=50 # interval for printing loss (iterations)
 n_iter = 90000
 N_way = 20 # how many classes for testing one-shot tasks>
@@ -60,19 +61,22 @@ best = 9999
 #weights_path = os.path.join(PATH, "weights")
 loader = Whale_Loader()
 siamese_net = createModel((150, 150, 1), 0.005)
+
+numTests = loader.get_num_test_pictures()
+(inputs,labels) = loader.get_single_test(0)
+
 print("training")
 for i in range(1, n_iter):
-    (inputs,targets)=loader.get_batch(batch_size)
+    (inputs,targets)=loader.get_training_batch(batch_size)
     loss=siamese_net.train_on_batch(inputs,targets)
-    print(loss)
     if i % evaluate_every == 0:
         print("evaluating")
         print("... sortof")
-        #val_acc = loader.test_oneshot(siamese_net,N_way,n_val,verbose=True)
-        #if val_acc >= best:
-        #    print("saving")
-        #    siamese_net.save(weights_path)
-        #    best=val_acc
+#        val_acc = loader.test_oneshot(siamese_net,N_way,n_val,verbose=True)
+#        if val_acc >= best:
+#            print("saving")
+#            siamese_net.save(weights_path)
+#            best=val_acc
 
     if i % loss_every == 0:
         print("iteration {}, training loss: {:.2f},".format(i,loss))
