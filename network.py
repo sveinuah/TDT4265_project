@@ -52,31 +52,31 @@ def createModel(shape, learningRate):
     return siameseNet
 
 
-evaluate_every = 1000 # interval for evaluating on one-shot tasks
-loss_every=50 # interval for printing loss (iterations)
+evaluate_every = 10 # interval for evaluating on one-shot tasks
+loss_every=1 # interval for printing loss (iterations)
 n_iter = 90000
 N_way = 20 # how many classes for testing one-shot tasks>
 n_val = 250 #how mahy one-shot tasks to validate on?
-best = 9999
-#weights_path = os.path.join(PATH, "weights")
+best = 0
+#weights_path = os.path.join(os.path.dirname(__file__), "weights")
+weights_path = "/tmp/TDT4265_gr21_weights"
 loader = Whale_Loader()
 siamese_net = createModel((150, 150, 1), 0.005)
 
 numTests = loader.get_num_test_pictures()
-(inputs,labels) = loader.get_single_test(0)
 
 print("training")
 for i in range(1, n_iter):
     (inputs,targets)=loader.get_training_batch(batch_size)
     loss=siamese_net.train_on_batch(inputs,targets)
     if i % evaluate_every == 0:
-        print("evaluating")
-        print("... sortof")
-#        val_acc = loader.test_oneshot(siamese_net,N_way,n_val,verbose=True)
-#        if val_acc >= best:
-#            print("saving")
-#            siamese_net.save(weights_path)
-#            best=val_acc
+        print("Evaluating")
+        val_acc = loader.test_oneshot(siamese_net,N_way,n_val)
+        print("Accuracy:", val_acc)
+        if val_acc >= best:
+            print("saving")
+            siamese_net.save(weights_path)
+            best=val_acc
 
     if i % loss_every == 0:
         print("iteration {}, training loss: {:.2f},".format(i,loss))
