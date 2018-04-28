@@ -67,6 +67,15 @@ class Whale_Loader:
 
     def get_training_batch(self, size):
         labels = sample(self.trainImgs.keys(), size)
+        
+        try:
+            new_whale_index = label.index('new_whale')
+            if new_whale_index >= size//2:
+                whale = labels.pop(new_whale_index)
+                labels.insert(0,whale)
+        except ValueError:
+            pass
+        
         pairs =[np.zeros((size, self.size_y, self.size_x, 1)) for i in range(2)]
         targets = np.zeros((size,))
         targets[size//2:] = 1
