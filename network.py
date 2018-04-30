@@ -93,7 +93,7 @@ filenames = loader.get_test_filenames()
 with open(os.path.join(os.path.dirname(__file__), "predictions.csv"), 'a') as outfile:
     print("Image", "id", sep=',', file=outfile)
 
-for i in range(9100, 10000):
+for i in range(numTests):
     print("Tester bilde:", i, "ved navn", filenames[i])
     test_pairs, labels = loader.get_single_test(i)
     result = siamese_net.predict(test_pairs, batch_size = 256, verbose=0)
