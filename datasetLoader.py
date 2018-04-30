@@ -31,8 +31,12 @@ class Whale_Generator:
         else:
             filename = self.filenames[key]
             imgpath = os.path.join(self.path, filename)
-            image = imresize(imread(imgpath, flatten=True), (self.size_x, self.size_y)).reshape(self.size_y, self.size_x, 1)
+            image = (1.0/255.0)*imresize(imread(imgpath, flatten=True), (self.size_x, self.size_y)).reshape(self.size_y, self.size_x, 1)
+            #print("Maks:", np.amax(image))
             return image
+
+    def get_filenames(self):
+        return self.filenames
 
 class Whale_Loader:
 
@@ -53,6 +57,11 @@ class Whale_Loader:
 
     def get_num_labels(self):
         return self.numLabels
+
+    def get_test_filenames(self):
+        whalegen = self.get_folder_generator(os.path.join(testDir,"unclassified"))
+        return whalegen.get_filenames()
+        
 
     def load_test_whales(self):
         for key in self.trainImgs:
@@ -81,7 +90,7 @@ class Whale_Loader:
         labels = sample(self.trainImgs.keys(), size)
         
         try:
-            new_whale_index = label.index('new_whale')
+            new_whale_index = labels.index('new_whale')
             if new_whale_index >= size//2:
                 whale = labels.pop(new_whale_index)
                 labels.insert(0,whale)
@@ -132,12 +141,13 @@ class Whale_Loader:
         
         if whaleIndex >= self.numTestPictures:
             raise IndexError("Whale index out of range")
-        
-        pairs = [np.zeros((self.numLabels, self.size_y, self.size_x,1)) for i in range(2)]
-        picture = self.testImgs[self.testlabels[0]][whaleIndex]
-        labels = list(self.labelSet)
 
-        for i in range(self.numLabels):
+
+        labels = list(self.labelSet - {"new_whale"})
+        pairs = [np.zeros((len(labels), self.size_y, self.size_x,1)) for i in range(2)]
+        picture = self.testImgs[self.testlabels[0]][whaleIndex]
+
+        for i in range(len(labels)):
             pairs[0][i,:,:,:] = picture
             
             label = labels[i]
